@@ -1,11 +1,11 @@
-#ifndef __HELLOWORLD_SCENE_H__
-#define __HELLOWORLD_SCENE_H__
+#ifndef _GAMESCENE_H_
+#define _GAMESCENE_H_
 
 #include "cocos2d.h"
 #include "Timber.h"
 #include "GameScore.h"
 USING_NS_CC;
-class HelloWorld : public cocos2d::Layer
+class GameScene : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -20,7 +20,7 @@ public:
 	bool onTouchBegans(Touch *touch, Event *event);
 
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(GameScene);
 
 	Timber* timber;
 	GameScore* score;

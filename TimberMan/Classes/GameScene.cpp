@@ -1,19 +1,18 @@
-#include "HelloWorldScene.h"
-
+#include "GameScene.h"
 #include "TreeModel.h"
 #include "GameOver.h"
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* GameScene::createScene()
 {
     auto scene = Scene::create();
-    auto layer = HelloWorld::create();
+    auto layer = GameScene::create();
     scene->addChild(layer);
     return scene;
 }
 
-bool HelloWorld::init()
+bool GameScene::init()
 {
 
     if ( !Layer::init() )
@@ -43,14 +42,14 @@ bool HelloWorld::init()
 	this->addChild(timber);
 	timber->setPosition(visibleSize.width/2-timber->getContentSize().width/2-20,150);
 	list = EventListenerTouchOneByOne::create();
-	list->onTouchBegan = CC_CALLBACK_2(HelloWorld::onTouchBegans,this);
+	list->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegans,this);
 	this->_eventDispatcher->addEventListenerWithSceneGraphPriority(list,this);
 	list->setEnabled(false);
 
 	score = GameScore::createScore();
 	this->addChild(score);
 	score->setPosition(visibleSize/2);
-	score->callBackFun = CC_CALLBACK_0(HelloWorld::menuCloseCallback,this);
+	score->callBackFun = CC_CALLBACK_0(GameScene::menuCloseCallback,this);
 
 	auto leftIcon = Sprite::create("left.png");
 	auto rightIcon = Sprite::create("right.png");
@@ -63,7 +62,7 @@ bool HelloWorld::init()
 
 	auto gameOver = GameOver::getInstance();
 	this->addChild(gameOver);
-	gameOver->callBackFun = CC_CALLBACK_0(HelloWorld::onRest,this);
+	gameOver->callBackFun = CC_CALLBACK_0(GameScene::onRest,this);
 	gameOver->setAnchorPoint(Vec2(0,0.5));
 	gameOver->setVisible(false);
 	gameOver->setPosition(visibleSize.width/2,visibleSize.height+gameOver->getContentSize().height/2);
@@ -72,7 +71,7 @@ bool HelloWorld::init()
 	auto play = MenuItemImage::create(
 		"play.png",
 		"play.png",
-		CC_CALLBACK_0(HelloWorld::playGame, this));
+		CC_CALLBACK_0(GameScene::playGame, this));
 	play->setScale(0.5);
 	menu = Menu::create(play, NULL);
 	this->addChild(menu);
@@ -96,7 +95,7 @@ bool HelloWorld::init()
     return true;
 }
 
-bool HelloWorld::onTouchBegans(Touch *touch, Event *event)
+bool GameScene::onTouchBegans(Touch *touch, Event *event)
 {
 	auto pos = touch->getLocation();
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -143,7 +142,7 @@ bool HelloWorld::onTouchBegans(Touch *touch, Event *event)
 	return true;
 }
 
-bool HelloWorld::getIsOver()
+bool GameScene::getIsOver()
 {
 	auto model = TreeModel::getInstance();
 
@@ -152,7 +151,7 @@ bool HelloWorld::getIsOver()
 }
 
 
-void HelloWorld::menuCloseCallback()
+void GameScene::menuCloseCallback()
 {
 	if(!GameOver::getInstance()->isVisible())
 	{
@@ -160,7 +159,7 @@ void HelloWorld::menuCloseCallback()
 	}
 }
 
-void HelloWorld::onRest()
+void GameScene::onRest()
 {
 	_score = 0;
 	TreeModel::getInstance()->onReset();
@@ -174,7 +173,7 @@ void HelloWorld::onRest()
 	timber->setPosition(visibleSize.width/2-timber->getContentSize().width/2-20,150);
 }
 
-void HelloWorld::gameOver()
+void GameScene::gameOver()
 {
 	list->setEnabled(false);
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -185,7 +184,7 @@ void HelloWorld::gameOver()
 	gameOver->runAction(MoveBy::create(0.5,Vec2(0,-gameOver->getContentSize().height)));
 }
 
-void HelloWorld::playGame()
+void GameScene::playGame()
 {
 	menu->removeFromParent();
 	logo->removeFromParent();
